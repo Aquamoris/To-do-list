@@ -9,7 +9,7 @@ const TaskList:React.FC = () => {
     const [tasks, setTasks] = useState<TaskType[]>([]);
 
     function addTask() {
-        let text: string |null = prompt('Input');
+        let text: string |null = prompt('New task for today!');
 
         if (text) {
             setTasks([...tasks, {text: text, completed: false, id: tasks.length}]);
@@ -21,7 +21,7 @@ const TaskList:React.FC = () => {
     }
 
     function editTask(index: number) {
-        let newText: string | null = prompt();
+        let newText: string | null = prompt('Edit your task here');
         let newTasks: Array<TaskType> = tasks.map(e => {
             if (e.id === index && newText) {
                 e.text = newText;
@@ -47,13 +47,16 @@ const TaskList:React.FC = () => {
                 return e
             }
         });
+        newTasks.forEach((e, i) => {
+            e.id = i;
+        })
         setTasks(newTasks);
     }
 
     return (
         <div className={style.wrapper}>
+            <div className={style.title}>Your Tasks</div>
             <div className={style.tasks}>
-                <div className={style.title}>Your Tasks</div>
                 { tasks.map((task) => ( <Task
                     id={task.id}
                     text={task.text}

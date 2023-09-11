@@ -16,6 +16,7 @@
 
 .text {
     width: 80%;
+    overflow-x: scroll;
 }
 
 .functional {
