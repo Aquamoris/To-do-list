@@ -1,7 +1,8 @@
 export type TaskType = {
+    id: number,
     text: string,
     completed: boolean,
-    edit?: Function,
-    delete?: Function,
-    complete?: Function
+    editTask?: Function,
+    completeTask?: Function,
+    deleteTask?: Function
 }
