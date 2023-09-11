@@ -1,0 +1,25 @@
+.task {
+    width: 100%;
+    height: 50px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    font-size: 20px;
+    color: var(--color-black);
+    border-bottom: solid 1px var(--color-black);
+}
+
+.task img {
+    height: 25px;
+    width: 25px;
+}
+
+.text {
+    width: 80%;
+}
+
+.functional {
+    width: 20%;
+    display: flex;
+    justify-content: space-between;
+}
