@@ -1,4 +1,4 @@
-import React, {MouseEventHandler, useState} from 'react';
+import React, {useState} from 'react';
 import style from './TasksList.module.css'
 import {TaskType} from "../TaskType";
 import Task from "../Task/Task";

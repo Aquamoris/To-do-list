@@ -35,3 +35,14 @@
     padding: 16px 32px;
     border-radius: 8px;
 }
+
+@media screen and (max-width: 479px) {
+    .wrapper {
+        height: 100%;
+        width: 100%;
+    }
+
+    .title {
+        width: 97%;
+    }
+}
