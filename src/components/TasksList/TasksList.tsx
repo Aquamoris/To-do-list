@@ -57,7 +57,6 @@ const TaskList:React.FC = () => {
     return (
         <div className={style.wrapper}>
             <div className={style.title}>Your Tasks</div>
-            {/*<InputModal />*/}
             <div className={style.tasks}>
                 { tasks.map((task) => ( <Task
                     id={task.id}
