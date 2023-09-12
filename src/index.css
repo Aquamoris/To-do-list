@@ -21,6 +21,11 @@ body {
     justify-content: center;
 }
 
+::selection {
+    background-color: var(--color-extralight);
+    color: var(--color-black);
+}
+
 @media screen and (max-width: 479px) {
     body {
         display: block;

@@ -2,6 +2,7 @@ import React, {useState} from 'react';
 import style from './TasksList.module.css'
 import {TaskType} from "../TaskType";
 import Task from "../Task/Task";
+import InputModal from "../InputModal/InputModal";
 
 
 const TaskList:React.FC = () => {
@@ -56,6 +57,7 @@ const TaskList:React.FC = () => {
     return (
         <div className={style.wrapper}>
             <div className={style.title}>Your Tasks</div>
+            {/*<InputModal />*/}
             <div className={style.tasks}>
                 { tasks.map((task) => ( <Task
                     id={task.id}

@@ -25,6 +25,12 @@
     justify-content: space-between;
 }
 
+.functional > div:hover {
+    background-color: var(--color-extralight);
+    border-radius: 4px;
+    cursor: pointer;
+}
+
 @media screen and (max-width: 479px) {
     .task {
         width: 97%;

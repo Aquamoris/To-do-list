@@ -17,10 +17,13 @@ const Task:FunctionComponent<TaskType> = ({id,
                 {completed ? <s>{text}</s> : text}
             </div>
             <div className={style.functional}>
-                <img src={complete} onClick={() => {
+                <div onClick={() => {
                     if (completeTask) {
-                        completeTask(id);
-                }}} alt="complete"/>
+                        completeTask(id)
+                    }
+                }}>
+                    <img src={complete} alt="delete"/>
+                </div>
                 <div onClick={() => {
                     if (editTask) {
                         editTask(id);
