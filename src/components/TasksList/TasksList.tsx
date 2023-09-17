@@ -11,48 +11,37 @@ const TaskList:React.FC = () => {
     const [menuStatus, setMenuStatus] = useState<'all' | 'completed' | 'notCompleted'>('all');
     const [tasksToShow, setTasksToShow] = useState<JSX.Element[]>([]);
 
-    useEffect(() => {
-        if (menuStatus === 'all') {
-            const toShow = tasks.map(task => ( <Task
+    function mapTasksToShow(array: TaskType[]) {
+        const newArray: JSX.Element[] = array.map(task => (
+            <Task
                 id={task.id}
                 text={task.text}
                 completed={task.completed}
                 key={task.id}
                 editTask={editTask}
                 completeTask={completeTask}
-                deleteTask={deleteTask} />) );
+                deleteTask={deleteTask} />
+        ))
+        return newArray;
+    }
+
+    useEffect(() => {
+        if (menuStatus === 'all') {
+            const toShow = mapTasksToShow(tasks);
 
             setTasksToShow( toShow );
         } else if (menuStatus === 'completed') {
-            const completedTasks = tasks.filter((task) => task.completed)
-            const toShow = completedTasks.map(task => (
-                <Task
-                    id={task.id}
-                    text={task.text}
-                    completed={task.completed}
-                    key={task.id}
-                    editTask={editTask}
-                    completeTask={completeTask}
-                    deleteTask={deleteTask} />
-            ))
+            const toShow = mapTasksToShow(tasks
+                .filter((task) => task.completed));
 
             setTasksToShow( toShow );
         } else {
-            const notCompletedTasks = tasks.filter((task) => !(task.completed))
-            const toShow = notCompletedTasks.map(task => (
-                <Task
-                    id={task.id}
-                    text={task.text}
-                    completed={task.completed}
-                    key={task.id}
-                    editTask={editTask}
-                    completeTask={completeTask}
-                    deleteTask={deleteTask} />
-            ))
+            const toShow = mapTasksToShow(tasks
+                .filter((task) => !(task.completed)));
 
             setTasksToShow( toShow );
         }
-    }, [menuStatus, tasks])
+    }, [menuStatus, tasks]);
 
     function addTask() {
         if (inputText) {
