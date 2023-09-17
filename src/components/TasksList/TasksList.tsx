@@ -1,24 +1,65 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import style from './TasksList.module.css'
 import {TaskType} from "../TaskType";
 import Task from "../Task/Task";
-import InputModal from "../InputModal/InputModal";
-
+import complete from "../../assets/img/complete.png"
 
 const TaskList:React.FC = () => {
 
     const [tasks, setTasks] = useState<TaskType[]>([]);
+    const [inputText, setInputText] = useState<string>('');
+    const [menuStatus, setMenuStatus] = useState<'all' | 'completed' | 'notCompleted'>('all');
+    const [tasksToShow, setTasksToShow] = useState<JSX.Element[]>([]);
+
+    useEffect(() => {
+        if (menuStatus === 'all') {
+            const toShow = tasks.map(task => ( <Task
+                id={task.id}
+                text={task.text}
+                completed={task.completed}
+                key={task.id}
+                editTask={editTask}
+                completeTask={completeTask}
+                deleteTask={deleteTask} />) );
+
+            setTasksToShow( toShow );
+        } else if (menuStatus === 'completed') {
+            const completedTasks = tasks.filter((task) => task.completed)
+            const toShow = completedTasks.map(task => (
+                <Task
+                    id={task.id}
+                    text={task.text}
+                    completed={task.completed}
+                    key={task.id}
+                    editTask={editTask}
+                    completeTask={completeTask}
+                    deleteTask={deleteTask} />
+            ))
+
+            setTasksToShow( toShow );
+        } else {
+            const notCompletedTasks = tasks.filter((task) => !(task.completed))
+            const toShow = notCompletedTasks.map(task => (
+                <Task
+                    id={task.id}
+                    text={task.text}
+                    completed={task.completed}
+                    key={task.id}
+                    editTask={editTask}
+                    completeTask={completeTask}
+                    deleteTask={deleteTask} />
+            ))
+
+            setTasksToShow( toShow );
+        }
+    }, [menuStatus, tasks])
 
     function addTask() {
-        let text: string |null = prompt('New task for today!');
-
-        if (text) {
-            setTasks([...tasks, {text: text, completed: false, id: tasks.length}]);
+        if (inputText) {
+            setInputText(inputText.trim());
+            setTasks([...tasks, {text: inputText, completed: false, id: tasks.length}])
+            setInputText('');
         }
-    }
-
-    function clearList() {
-        setTasks([]);
     }
 
     function editTask(index: number) {
@@ -58,19 +99,33 @@ const TaskList:React.FC = () => {
         <div className={style.wrapper}>
             <div className={style.title}>Your Tasks</div>
             <div className={style.tasks}>
-                { tasks.map((task) => ( <Task
-                    id={task.id}
-                    text={task.text}
-                    completed={task.completed}
-                    key={task.id}
-                    editTask={editTask}
-                    completeTask={completeTask}
-                    deleteTask={deleteTask} />
-                ) )}
+                { tasksToShow }
             </div>
-            <div className={style.functional}>
-                <button className={style.functionalButton} onClick={addTask}>Add</button>
-                <button className={style.functionalButton} onClick={clearList}>Clear</button>
+            <div className={style.inputWrapper}>
+                <input className={style.input}
+                       type="text"
+                       value={inputText}
+                       onChange={(e) => {
+                    setInputText(e.target.value);
+                }}/>
+                <button className={style.functionalButton}
+                        onClick={addTask}>
+                    <img src={complete} alt="complete"/>
+                </button>
+            </div>
+            <div className={style.menu}>
+                <button className={menuStatus === 'all' ? style.menuButton + ' ' + style.active : style.menuButton}
+                        onClick={() => setMenuStatus('all')}>
+                    All
+                </button>
+                <button className={menuStatus === 'completed' ? style.menuButton + ' ' + style.active : style.menuButton}
+                        onClick={() => setMenuStatus('completed')}>
+                    Completed
+                </button>
+                <button className={menuStatus === 'notCompleted' ? style.menuButton + ' ' + style.active : style.menuButton}
+                        onClick={() => setMenuStatus('notCompleted')}>
+                    In process
+                </button>
             </div>
         </div>
     );
