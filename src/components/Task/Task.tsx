@@ -1,4 +1,4 @@
-import React, {FunctionComponent} from 'react';
+import React, {FunctionComponent, useEffect, useState} from 'react';
 import style from './Task.module.css';
 import complete from '../../assets/img/complete.png';
 import edit from '../../assets/img/edit.png';
@@ -11,11 +11,40 @@ const Task:FunctionComponent<TaskType> = ({id,
                                               editTask,
                                               completeTask,
                                           deleteTask}) => {
+
+    const [editMode, setEditMode] = useState<boolean>(false);
+    const [editText, setEditText] = useState<string>(text);
+
+    const editTextHandler = (e: React.FormEvent<HTMLInputElement>) => {
+        setEditText(e.currentTarget.value);
+    }
+
+    const editTextOnBlur = () => {
+        (editTask && editText) ? editTask(id, editText) : setEditText(text);
+        setEditMode(!editMode)
+    }
+
+    useEffect(() => {
+        setEditText(text);
+    }, [text]);
+
     return (
         <div className={style.task}>
-            <div className={style.text}>
-                {completed ? <s>{text}</s> : text}
-            </div>
+            {
+                !editMode
+                    ? <div className={style.text}>
+                        {completed ? <s>{text}</s> : text}
+                    </div>
+                    : <div className={style.inputWrapper}>
+                        <input className={style.input}
+                               onChange={editTextHandler}
+                               onBlur={editTextOnBlur}
+                               autoFocus={true}
+                               type="text"
+                               value={editText}
+                        />
+                    </div>
+            }
             <div className={style.functional}>
                 <div onClick={() => {
                     if (completeTask) {
@@ -25,9 +54,7 @@ const Task:FunctionComponent<TaskType> = ({id,
                     <img src={complete} alt="delete"/>
                 </div>
                 <div onClick={() => {
-                    if (editTask) {
-                        editTask(id);
-                    }
+                    setEditMode(!editMode)
                 }}>
                     <img src={edit} alt="edit"/>
                 </div>

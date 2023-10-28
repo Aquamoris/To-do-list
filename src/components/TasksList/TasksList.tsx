@@ -5,7 +5,6 @@ import Task from "../Task/Task";
 import complete from "../../assets/img/complete.png"
 
 const TaskList:React.FC = () => {
-
     const [tasks, setTasks] = useState<TaskType[]>([]);
     const [inputText, setInputText] = useState<string>('');
     const [menuStatus, setMenuStatus] = useState<'all' | 'completed' | 'notCompleted'>('all');
@@ -51,8 +50,7 @@ const TaskList:React.FC = () => {
         }
     }
 
-    function editTask(index: number) {
-        let newText: string | null = prompt('Edit your task here');
+    function editTask(index: number, newText: string | null) {
         let newTasks: Array<TaskType> = tasks.map(e => {
             if (e.id === index && newText) {
                 e.text = newText;
